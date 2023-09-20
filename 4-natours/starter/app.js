@@ -1,13 +1,18 @@
 const express = require('express');
+const morgan = require('morgan');
 
+// express app
 const app = express();
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server started on port ${port} ....`);
-});
+// routes import
+const toursRouter = require('./routes/toursRoutes');
 
-app.get('/', (req, res) => {
-    res.send('Hello from my little server')
-});
+// 3th party middleware
+app.use(morgan('dev'));
+app.use(express.json());
 
+// routes middleware
+app.use('/api/v1/tours', toursRouter);
+
+// export app
+module.exports = app;
