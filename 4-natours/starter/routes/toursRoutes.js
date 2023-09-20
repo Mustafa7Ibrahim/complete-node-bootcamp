@@ -9,5 +9,4 @@ router
 
 router.route('/:id').get(tourController.getOneTour);
 
-// export router
 module.exports = router;
