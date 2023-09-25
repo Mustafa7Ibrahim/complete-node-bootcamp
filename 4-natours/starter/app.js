@@ -7,8 +7,10 @@ const app = express();
 // routes import
 const toursRouter = require('./routes/toursRoutes');
 
-// 3th party middleware
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 app.use(express.json());
 
 // routes middleware

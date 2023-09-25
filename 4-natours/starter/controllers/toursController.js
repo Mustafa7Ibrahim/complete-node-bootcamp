@@ -4,6 +4,28 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+exports.checkId = (req, res, next, val) => {
+  console.log(`Tour id is: ${val}`);
+
+  if (val * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'failed',
+      message: 'tour not found!',
+    });
+  }
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(404).json({
+      status: 'failed',
+      message: 'missing name or price',
+    });
+  }
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -17,13 +39,6 @@ exports.getAllTours = (req, res) => {
 exports.getOneTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
-  if (!tour) {
-    res.status(404).json({
-      status: 'failed',
-      message: 'tour not found!',
-    });
-  }
-
   res.status(200).json({
     status: 'success',
     data: {
